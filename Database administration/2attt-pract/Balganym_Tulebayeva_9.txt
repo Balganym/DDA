@@ -1,0 +1,80 @@
+                                                          Balganym Tulebayeva
+                                                          Tue 10:00 – 12:00
+                                                          Practice 9
+1.
+  a)  
+      CREATE OR REPLACE FUNCTION get_job (p_jobid IN jobs.job_id%TYPE)
+      RETURN jobs.job_title%TYPE
+      IS 
+        v_jobtitle jobs.job_title%TYPE;
+      BEGIN
+        SELECT job_title INTO v_jobtitle FROM jobs
+        WHERE job_id = p_jobid; 
+        RETURN v_jobtitle;
+      END get_job;
+      /
+
+  b) 
+      VARIABLE b_title VARCHAR2(35)
+      EXECUTE :b_title := get_job(‘SA_REP’)
+      PRINT b_title
+ 
+2. 
+  a)  
+      CREATE OR REPLACE FUNCTION get_annual_comp (p_salary IN employees.salary%TYPE, 
+        p_comm IN employees.commission_pct%TYPE)
+      RETURN NUMBER 
+      IS
+      BEGIN
+        RETURN (NVL(p_sal, 0) * 12 + (NVL(p_comm, 0) * NVL(p_sal, 0) * 12 ));
+      END get_annual_comp;
+      /
+
+  b)
+      SELECT employee_id, last_name, get_annual_comp (salary, commission_pct) 
+        "Annual Salary" FROM employees  WHERE department_id = 30;
+
+3.
+  a)
+    CREATE OR REPLACE FUNCTION valid_deptid ( 
+      p_depid IN departments.department_id%TYPE)
+    RETURN BOOLEAN 
+    IS
+      v_temp PLS_INTEGER;
+    BEGIN
+      SELECT 1 INTO v_temp FROM departments WHERE department_id = p_depid;
+      RETURN TRUE;
+      EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+      RETURN FALSE;
+    END valid_deptid;
+    /
+
+  b)
+  CREATE OR REPLACE PROCEDURE add_employee (
+    p_first_name employees.first_name%TYPE,
+    p_last_name employees.last_name%TYPE,
+    p_email employees.email%TYPE,
+    p_job employees.job_id%TYPE DEFAULT 'SA_REP',
+    p_mgr employees.manager_id%TYPE DEFAULT 145,
+    p_sal employees.salary%TYPE DEFAULT 1000,
+    p_comm employees.commission_pct%TYPE DEFAULT 0,
+    p_depid employees.department_id%TYPE DEFAULT 30)
+  IS
+  BEGIN
+    IF valid_deptid(p_depid) THEN
+    INSERT INTO employees(employee_id, first_name, last_name, 
+      email, job_id,    manager_id, hire_date, salary, commission_pct, department_id)
+    VALUES (employee_sequence.NEXTVAL, p_first_name, p_last_name, p_email, p_job, 
+      p_mgr, TRUNC(SYSDATE), p_sal, p_comm, p_depid);
+    ELSE
+      RAISE_APPLICATION_ERROR (-20204, 'Invalid department ID');
+    END IF;
+  END add_employee;
+  /
+
+c)
+  EXECUTE add_employee('Jane', 'Harris', 'jharris@gmail.com', p_depid => 15);
+
+d)
+  EXECUTE add_employee('Joe', 'Harris', 'joharris@gmail.com', p_depid => 80);

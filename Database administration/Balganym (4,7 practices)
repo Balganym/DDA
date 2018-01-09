@@ -1,0 +1,87 @@
+
+1.  
+  DECLARE 
+v_deptno NUMBER := 10;
+CURSOR c_emp_cursor IS
+  SELECT last_name, salary, manager_id
+  FROM employees
+  WHERE department_id = v_deptno;
+BEGIN 
+  FOR emp_record IN c_emp_cursor
+      LOOP 
+           IF emp_record.salary < 5000 AND (emp_record.manager_id =     101 OR emp_record.manager_id = 124) THEN
+    DBMS_OUTPUT.PUT_LINE (emp_record.last_name || ' Due for a raise');
+           ELSE 
+    DBMS_OUTPUT.PUT_LINE (emp_record.last_name || ' Not due for a raise');
+         END IF;
+    END LOOP;
+              END;
+
+2.  – 
+3.  
+a.  DECLARE 
+                                 CURSOR c_dept_cursor IS
+      SELECT department_id, department_name
+      FROM departments
+      WHERE department_id < 100
+      ORDER BY department_id;
+                     CURSOR c_emp_cursor (v_deptno NUMBER) IS
+      SELECT last_name, job_id, hire_date, salary
+      FROM employees
+      WHERE department_id = v_deptno
+      AND employee_id < 120;
+       
+         v_cur_deptno departments.department_id%TYPE;
+         v_cur_dept_name departments.department_name%TYPE;
+         v_emp_name employees.last_name%TYPE;
+         v_job employees.job_id%TYPE;
+         v_hire_date employees.hire_date%TYPE;
+         v_salary employees.salary%TYPE;
+
+
+
+
+
+    
+            BEGIN 
+         OPEN c_dept_cursor;
+             LOOP 
+      FETCH c_dept_cursor INTO v_cur_deptno, v_cur_dept_name;
+      EXIT WHEN c_dept_cursor%NOTFOUND;
+      DBMS_OUTPUT.PUT_LINE ('Department number: ' || v_cur_deptno || '  Department name: ' || v_cur_dept_name);
+       
+      IF c_emp_cursor%ISOPEN THEN
+           CLOSE c_emp_cursor;
+      END IF;
+      OPEN c_emp_cursor (v_cur_deptno);
+           LOOP 
+        FETCH c_emp_cursorINTO v_emp_name, v_job, v_hire_date, v_salary;
+        EXIT WHEN c_emp_cursor%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_emp_name, || '  '  || v_job || '    ' || v_hiredate || '     ' || v_salary);
+          END LOOP;
+      DBMS_OUTPUT.PUT_LINE ('_______________________________________________');
+            END LOOP;
+            CLOSE c_dept_cursor;
+    END;
+
+4.               
+  DECLARE 
+         v_num    NUMBER(3) := 5;
+                    v_salary employees.salary%TYPE;
+        CURSOR  c_emp_cursor IS
+    SELECT salary 
+    FROM employees 
+    ORDER BY salary DESC;
+  BEGIN
+       OPEN c_emp_cursor;
+       FETCH c_emp_cursor INTO v_salary;
+       WHILE c_emp_cursor%ROWCOUNT <= v_num AND c_emp_cursor %FOUND
+    LOOP 
+         INSERT INTO top_salaries (salary)
+         VALUES (v_salary);
+         FETCH c_emp_cursor INTO v_salary;
+    END LOOP;
+      CLOSE c_emp_cursor;
+  END;
+  /
+  SELECT * FROM top_salaries;
