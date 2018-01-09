@@ -1,0 +1,19 @@
+					TRANSACTIONS
+
+-ACID:
+	Atomicity
+	Consistency
+	Isolation 
+	Durability - прочность(все должно сохраниться)
+
+	start transaction
+	…
+	…
+	if(…)
+	  rollback 
+	
+	commit 
+	
+	safepoints
+
+LOCK(deelock)

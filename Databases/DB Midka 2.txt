@@ -1,0 +1,47 @@
+CREATE DATABASE MIDTERM
+
+CREATE Table azs(
+	
+    id int PRIMARY KEY,
+    c_date datetime,
+    c_l int
+    
+)
+CREATE Table dict(
+	
+    id int NOT NULL,
+    c_mark varchar NOT NULL
+
+);
+
+
+INSERT INTO `azs`(`id`, `c_date`, `c_l`) VALUES 
+(1, CONVERT("2017-01-03 10:22:42", DATETIME),30),
+(2, CONVERT("2017-01-03 10:24:44", DATETIME),10),
+(3, CONVERT("2017-01-03 10:26:14", DATETIME),12),
+(4, CONVERT("2017-01-03 10:28:34", DATETIME),40),
+(5, CONVERT("2017-01-03 10:30:47", DATETIME),17),
+(6, CONVERT("2017-01-03 10:32:18", DATETIME), 32)
+
+
+1)SELECT DATE(azs.c_date) c_date, SUM(c_l) FROM azs GROUP BY DATE(azs.c_date)
+
+2)
+SELECT case when DAYOFWEEK(DATE(a.c_date)) = 2 then "ПН" when DAYOFWEEK(DATE(a.c_date)) = 3 then "ВТ" when DAYOFWEEK(DATE(a.c_date)) = 4 then "СР" when DAYOFWEEK(DATE(a.c_date)) = 5 then "ЧТ" when DAYOFWEEK(DATE(a.c_date)) = 6 then "ПТ" when DAYOFWEEK(DATE(a.c_date)) = 7 then "СБ" else "ВС" end day ,sum(c_l), case when d.c_mark = "АИ-93" then "regular" else "super" end mark from azs a JOIN dict d on a.id = d.id GROUP BY d.c_mark, DATE(a.c_date) ORDER BY DATE(a.c_date)
+
+
+3)
+Select res.day, max(res.lit), res.mark From (SELECT case when DAYOFWEEK(DATE(a.c_date)) = 2 then "ПН" when DAYOFWEEK(DATE(a.c_date)) = 3 then "ВТ" when DAYOFWEEK(DATE(a.c_date)) = 4 then "СР" when DAYOFWEEK(DATE(a.c_date)) = 5 then "ЧТ" when DAYOFWEEK(DATE(a.c_date)) = 6 then "ПТ" when DAYOFWEEK(DATE(a.c_date)) = 7 then "СБ" else "ВС" end day, case when d.c_mark = "АИ-93" then "regular" else "super" end mark,sum(c_l) lit from azs a JOIN dict d on a.id = d.id GROUP BY d.c_mark, DATE(a.c_date) ORDER BY DATE(a.c_date), sum(a.c_l) DESC) res GROUP BY res.day
+
+4)
+DELETE a FROM azs a, azs aa WHERE a.id > aa.id AND a.c_date = a.c_date AND a.c_l = aa.c_l 
+
+4)
+DELETE FROM azs  
+WHERE id IN (SELECT * FROM (SELECT id FROM azs GROUP BY c_date, c_l HAVING (COUNT(*) > 1)) AS A);
+
+
+
+
+
+ 

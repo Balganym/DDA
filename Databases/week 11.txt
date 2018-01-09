@@ -1,0 +1,116 @@
+	Week - Design
+__________________________________________________________________________________
+
+Relational Model(Codd - ввел абстракцию, мат. модели(теория множеств, предиката логика),)
+Codd’s Rules(12) (vendor(o))
+
+
+Design
+ ER - diagrams (entity relations)
+
+	Entity : class
+	type : events
+
+EF - Entity framework (Entity type)
+ORM - Object Relational Mapping
+
+
+Портирование - переписывание с одного языка на другой
+Hibernate
+
+column - attributes
+rows - tuple
+кортеж - набор данных
+
+Students
+_________________
+|    PK         |
+|    Keys       |
+————————————————|  ——————————  
+| A1            |
+| A2            |
+—————————————————
+
+
+
+ER - Модели:
+ Концептуальная - (что будет, вид)
+ Логическая - (атрибуты, названия)
+ Физическая - (типы данных)
+
+Логическая модель:
+
+	- Entity type Design  (сначала анализ)  (кол-во сущностей + их содержания)
+	- Relationship Design
+	- Constraint Design
+	- Normalization - > хорошо для select
+ 
+one to many : cardinality  (one - min(0)/max(1), many - min/max)
+
+primary key = key (DESIGN)
+Strong entity(может существовать сам по себе)/ week entity(например ID, который не может существовать без студента)
+
+1 -ая нормальная форма: (каждая сущ должна иметь key, и в каждая ячейка должна быть атомарной(хранить отдельно или вместе))
+
+2-ая форма: все аддишнл ключи должны зависеть от главного ключа(н/р:надо вытащить оплату отдельно)
+
+
+Анализ
+Проектирование
+Производительность (найти Problem - bottleNeck) -> Denormalization -> все в одной таблице
+Тестирование
+
+кол-во index-ов
+
+
+No-SQL
+
+Relational DB : 
+	- OLTP (Transactions)
+	- OLAP (Analytic)
+
+
+3 подхода:
+
+	- model first
+	- database first
+	- code-first (auto emigration)
+	
+
+
+
+
+Домашка : создать юзера
+	   подвесить триггеры 
+
+           все смоделировать
+	   гит
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MVP - most valuable professional - minimal value product
+
+
+
+
+
+
+
+

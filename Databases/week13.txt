@@ -1,0 +1,55 @@
+	T_SQL -> в oracle = PL
+
+Stored Procedures -> процедура
+(-SP) нельзя использовать 
+CREATE PROCEDURE p1:
+
+……(input params)
+	@v1 INT,
+	@V2 VARCHCAR(20) OUT
+…….(output params)
+as 
+brgin
+(CODE)
+….
+	select top 20 f1,f2 from t1 where id = @v1
+	select @v2=f1 from t1 where id = @.
+	set @v3v1/2
+
+end
+
+exec(cute) p1//16
+
+______________________
+exec p1@V1 and V2
+declare @v2 as in
+declare @v3 was varchar
+
+
+————————————————————————————————————————————————————————————————————————————————————————————————
+cursor (пробежатсья  в цикле)
+ 
+begin
+	declare @c = cursor
+	set @c = cursor for
+		select x1,x2 from… = 0
+	
+	open @c
+
+	fetch from@c into @x1,@x2
+	@@FETCH_STATUS (выводить любой элемент) 
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+

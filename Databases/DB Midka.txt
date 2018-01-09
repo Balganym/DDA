@@ -1,0 +1,14 @@
+1) Create DB
+2) Crate Table, fill table
+3) Select Into, 
+
+between dateadd(day, -3, getdata()) and getdata()
+
+
+1) SELECT h.tran_dt, c.c_name, h.amount FROM history h LEFT OUTER JOIN currency c On h.c_code = c.c_code
+
+2) SELECT h.tran_dt, h.c_code,  h.amount, CASE WHEN h.c_code = 421 AND c.c_name IS NULL THEN 'RUB' ELSE c.c_name END c_name FROM history h LEFT OUTER JOIN currency c ON c.c_code=h.c_code
+
+3)SELECT *, case when (Select c_name FROM currency c WHERE h.c_code = c.c_code) is NULL AND h.c_code = 421 THEN 'EUR' ELSE (Select c_name FROM currency c WHERE h.c_code = c.c_code) END name FROM history h
+
+

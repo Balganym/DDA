@@ -1,0 +1,5 @@
+create view v_Personasselect * from Person with(nolock) where age>22goselect * from v_Person 
+
+
+
+

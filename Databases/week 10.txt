@@ -1,0 +1,35 @@
+ week 10
+
+DO, security, SQL server
+
+ -SQL server:
+	-2servers claster
+	2< farm
+	перенонс из одной базы на другой: replication(asyvhronic)
+
+
+Сloud version: AZURE
+
+Databace objects: 
+
+	USER(нужно для insert, update etc.)
+ 	LOGIN(LEGACY(наследие), для создания нескольких login-ов )
+
+ 	Чтобы выдать какие то правa: GRANT:
+	GRANT insert,delete(можно ALL или отнять права Revoke) on table1 to user1
+
+	VIEW - объект который всегда содержит какой то SELECT
+
+	время быстрее
+
+SHEMA - чтобы выдавать права сразу на несколько объектов (t1,t2,t3 user SCHEMA:: S1) как namespace
+
+ROLE - GRANT INSERT ON T1 TO SomeRole
+
+TRIGGER - (кусочек кода, который что то выполняет) (вставака и обновление view-шки)
+
+
+View-шка которая на самом деле табличка(что то, не поняла(чтобы не создавать несколько таблиц, а просто повесить триггеры и если мы будем что то менять, он автоматический будет все менять в финальной таблице))
+
+
+
